@@ -65,11 +65,11 @@ class Tree{
         else return false; 
     }
 
-    levelOrder(root = this.root){
-        if(root === null) return;
+    levelOrder(){
+        if(this.root === null) return;
         else{
             let queue = [];
-            queue.push(root)
+            queue.push(this.root)
             while(queue.length !== 0){
                 let current = queue.shift()
                 console.log(current)
@@ -79,6 +79,29 @@ class Tree{
             return queue;
         }
     }
+
+    preorder(root){
+        if(root === null) return;
+        console.log(root.data); 
+        this.preorder(root.left);
+        this.preorder(root.right); 
+    }
+
+    inorder(root = this.root){
+        if(root === null) return;
+        this.inorder(root.left);
+        console.log(root.data); 
+        this.inorder(root.right);
+    }
+
+    postorder(root = this.root){
+        if(root === null) return;
+        this.postorder(root.left);
+        this.postorder(root.right);
+        console.log(root.data);
+
+    }
+
 }
 
 function buildTree(array, start, end){
@@ -110,6 +133,7 @@ const tree = new Tree(array)
 //console.log(tree.find(tree.root, 16))
 //tree.insert(tree.root, 10)
 //tree.delete(tree.root, 9)
-console.log(tree.levelOrder(tree.root))
+//console.log(tree.levelOrder(tree.root))
+console.log(tree.preorder(tree.root))
 
-prettyPrint(tree.root, prefix = '', isLeft = true)
+//prettyPrint(tree.root, prefix = '', isLeft = true)
