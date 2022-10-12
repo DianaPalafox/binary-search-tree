@@ -29,17 +29,17 @@ class Tree{
     delete(root = this.root, value){
         if(root === null) return root; 
         if(root.data < value) {
-            root.right = delete(root.right, value)
+            root.right = this.delete(root.right, value)
         }
         else if(root.data > value){
-            root.left = delete(root.left, value)
+            root.left = this.delete(root.left, value)
         }
         else{
             if(root.left === null) return root.right; 
             else if(root.right === null) return root.left; 
 
             root.data = this.minValue(root.right)
-            root.right = delete(root.right, root.data)
+            root.right = this.delete(root.right, root.data)
         }
         return root; 
     }
@@ -63,6 +63,21 @@ class Tree{
             return this.find(root.left, value)
         } 
         else return false; 
+    }
+
+    levelOrder(root = this.root){
+        if(root === null) return;
+        else{
+            let queue = [];
+            queue.push(root)
+            while(queue.length !== 0){
+                let current = queue.shift()
+                console.log(current)
+                if(current.left !== null) queue.push(current.left)
+                if(current.right !== null) queue.push(current.right)
+            }
+            return queue;
+        }
     }
 }
 
@@ -92,8 +107,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const tree = new Tree(array)
-console.log(tree.find(tree.root, 16))
-tree.insert(tree.root, 10)
-tree.delete(tree.root, 9)
+//console.log(tree.find(tree.root, 16))
+//tree.insert(tree.root, 10)
+//tree.delete(tree.root, 9)
+console.log(tree.levelOrder(tree.root))
 
 prettyPrint(tree.root, prefix = '', isLeft = true)
