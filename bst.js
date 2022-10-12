@@ -12,6 +12,47 @@ class Tree{
         this.root = buildTree(this.array, 0, this.array.length - 1)
     }
 
+    insert(root = this.root, value){
+        let node = new Node(value)
+        if(root === null){
+            return root = node; 
+        }
+        else if(root.data < value){
+            root.right = this.insert(root.right, value)
+        }
+        else if(root.data > value){
+            root.left = this.insert(root.left, value)
+        }
+        return root; 
+    }
+
+    delete(root = this.root, value){
+        if(root === null) return root; 
+        if(root.data < value) {
+            root.right = delete(root.right, value)
+        }
+        else if(root.data > value){
+            root.left = delete(root.left, value)
+        }
+        else{
+            if(root.left === null) return root.right; 
+            else if(root.right === null) return root.left; 
+
+            root.data = this.minValue(root.right)
+            root.right = delete(root.right, root.data)
+        }
+        return root; 
+    }
+
+    minValue(root= this.root){
+        let min = root.data; 
+        while(root.left !== null){
+            min = root.left.data; 
+            root = root.left;
+        }
+        return min; 
+    }
+
     find(root = this.root, value){
         if(root === null) return false;
         if(root.data === value) return root; 
@@ -39,7 +80,7 @@ function buildTree(array, start, end){
 }
 
 
-/*const prettyPrint = (node, prefix = '', isLeft = true) => {
+const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
@@ -47,10 +88,12 @@ function buildTree(array, start, end){
     if (node.left !== null) {
       prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
-  }*/
+  }
 
 const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const tree = new Tree(array)
 console.log(tree.find(tree.root, 16))
+tree.insert(tree.root, 10)
+tree.delete(tree.root, 9)
 
-//prettyPrint(tree.root, prefix = '', isLeft = true)
+prettyPrint(tree.root, prefix = '', isLeft = true)
