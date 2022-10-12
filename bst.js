@@ -102,6 +102,78 @@ class Tree{
 
     }
 
+    heigth(root = this.root, value){
+        if(this.root == null) return -1;
+        else{
+            let left = this.heigth(root.left, value)
+            let right = this.heigth(root.right, value)
+
+            let current = Math.max(left, right) + 1;
+
+            if(root.data == value) return current; 
+        }
+    }
+
+    heigthTree(root = this.root){
+        if(root = null) return -1;
+        else{
+            let left = this.heigth(root.left)
+            let right = this.heigth(root.right)
+
+            return Math.max(left, right) + 1;
+        }
+    }
+
+    depth(root = this.root, node){
+        if(root === null) return -1;
+        else{
+            let dist = -1;
+            if((root.data === node) || 
+            (dist = this.depth(root.left, value)) >= 0 ||
+            (dist = this.depth(root.right, value)) >= 0 ) {
+                return dist + 1;
+            }
+            return dist;   
+        }
+    }
+
+    isBalanced(root = this.root){
+        if(root === null) return false;
+
+        let left = root.left;
+        let right = root.right;
+
+        if(Math.abs(this.heigthTree(left) - this.heigthTree(right)) > 1){
+            return false;
+        }
+        else return true;
+    }
+
+    traverse(root= this.root, array) {
+        if (array !== undefined) array.push(root.data);
+        if (root.left !== null) {
+          this.traverse(root.left, array);
+        }
+    
+        if (root.right !== null) {
+          this.traverse(root.right, array);
+        }
+        return array;
+      }
+    
+    rebalance() {
+        if (this.isBalanced(this.root)) return this.root;
+    
+        let rebalancedTree = [];
+        rebalancedTree = this.traverse(this.root, rebalancedTree);
+    
+        let balancedTree = new Tree(rebalancedTree);
+    
+        return balancedTree.root;
+      }
+
+
+
 }
 
 function buildTree(array, start, end){
@@ -118,15 +190,6 @@ function buildTree(array, start, end){
 }
 
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-    }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-    }
-  }
 
 const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const tree = new Tree(array)
@@ -136,4 +199,4 @@ const tree = new Tree(array)
 //console.log(tree.levelOrder(tree.root))
 console.log(tree.preorder(tree.root))
 
-//prettyPrint(tree.root, prefix = '', isLeft = true)
+
